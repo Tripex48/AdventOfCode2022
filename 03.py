@@ -18,7 +18,7 @@ def main():
         line = line.strip()
         cmp1 = set(line[: int(len(line) / 2)])
         cmp2 = set(line[int(len(line) / 2) :])
-        dup = cmp1.intersection(cmp2).pop()
+        (dup,) = cmp1 & cmp2
         if dup.islower():
             priority += ord(dup) - 96
         else:
@@ -31,7 +31,7 @@ def main():
         cmp1 = set(data[i].strip())
         cmp2 = set(data[i + 1].strip())
         cmp3 = set(data[i + 2].strip())
-        dup = cmp1.intersection(cmp2).intersection(cmp3).pop()
+        (dup,) = cmp1 & cmp2 & cmp3
         if dup.islower():
             priority += ord(dup) - 96
         else:
