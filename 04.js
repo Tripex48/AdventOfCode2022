@@ -7,23 +7,15 @@ async function readInput() {
   return input.trim().split("\n");
 }
 
-function isSuperset(set, subset) {
-  for (const elem of subset) {
-    if (!set.has(elem)) {
-      return false;
-    }
-  }
-  return true;
+function contains(self_start, self_end, other_start, other_end) {
+  return self_start <= other_start && self_end >= other_end;
 }
 
-function intersection(setA, setB) {
-  const intersectionSet = new Set();
-  for (const elem of setB) {
-    if (setA.has(elem)) {
-      intersectionSet.add(elem);
-    }
+function overlap(self_start, self_end, other_start, other_end) {
+  if (self_end < other_start || other_end < self_start) {
+    return false;
   }
-  return intersectionSet;
+  return true;
 }
 
 async function puzzle() {
@@ -40,21 +32,14 @@ async function puzzle() {
     const p1Nums = p1Str.split("-").map((x) => +x);
     const p2Nums = p2Str.split("-").map((x) => +x);
 
-    const cmp1 = new Set();
-    for (let i = p1Nums[0]; i <= p1Nums[1]; i += 1) {
-      cmp1.add(i);
-    }
-
-    const cmp2 = new Set();
-    for (let i = p2Nums[0]; i <= p2Nums[1]; i += 1) {
-      cmp2.add(i);
-    }
-
-    if (isSuperset(cmp1, cmp2) || isSuperset(cmp2, cmp1)) {
+    if (
+      contains(p1Nums[0], p1Nums[1], p2Nums[0], p2Nums[1]) ||
+      contains(p2Nums[0], p2Nums[1], p1Nums[0], p1Nums[1])
+    ) {
       count_p1 += 1;
     }
 
-    if (intersection(cmp1, cmp2).size > 0) {
+    if (overlap(p1Nums[0], p1Nums[1], p2Nums[0], p2Nums[1])) {
       count_p2 += 1;
     }
   });
