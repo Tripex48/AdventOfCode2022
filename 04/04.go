@@ -6,9 +6,28 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	mapset "github.com/deckarep/golang-set/v2"
 )
+
+func getIntersection(setA map[int]struct{}, setB map[int]struct{}) map[int]struct{} {
+	newSet := make(map[int]struct{})
+
+	for num := range setA {
+		if _, ok := setB[num]; ok {
+			newSet[num] = struct{}{}
+		}
+	}
+
+	return newSet
+}
+
+func isSuperset(set map[int]struct{}, subset map[int]struct{}) bool {
+	for elem := range subset {
+		if _, ok := set[elem]; !ok {
+			return false
+		}
+	}
+	return true
+}
 
 func main() {
 	fmt.Println("--- Running Day 4 ---")
@@ -31,21 +50,28 @@ func main() {
 		p1_nums := ParseNumbers(strings.Split(parts[0], "-"))
 		p2_nums := ParseNumbers(strings.Split(parts[1], "-"))
 
-		p1 := mapset.NewSet[int]()
+		p1 := make(map[int]struct{})
 		for i := p1_nums[0]; i <= p1_nums[1]; i++ {
-			p1.Add(i)
+			p1[i] = struct{}{}
 		}
 
-		p2 := mapset.NewSet[int]()
+		p2 := make(map[int]struct{})
 		for i := p2_nums[0]; i <= p2_nums[1]; i++ {
-			p2.Add(i)
+			p2[i] = struct{}{}
 		}
 
-		if p1.IsSubset(p2) || p2.IsSubset(p1) {
+		if isSuperset(p1, p2) || isSuperset(p2, p1) {
 			count_p1 += 1
 		}
 
-		if len(p1.Intersect(p2).ToSlice()) > 0 {
+		dup := getIntersection(p1, p2)
+		keys := make([]int, 0, len(dup))
+		for k := range dup {
+			keys = append(keys, k)
+			break
+		}
+
+		if len(keys) > 0 {
 			count_p2 += 1
 		}
 	}

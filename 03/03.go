@@ -6,9 +6,19 @@ import (
 	"strings"
 	"time"
 	"unicode"
-
-	mapset "github.com/deckarep/golang-set/v2"
 )
+
+func getIntersection(setA map[rune]struct{}, setB map[rune]struct{}) map[rune]struct{} {
+	newSet := make(map[rune]struct{})
+
+	for chr := range setA {
+		if _, ok := setB[chr]; ok {
+			newSet[chr] = struct{}{}
+		}
+	}
+
+	return newSet
+}
 
 func main() {
 	fmt.Println("--- Running Day 3 ---")
@@ -26,21 +36,27 @@ func main() {
 
 	priority := 0
 	for _, line := range input {
-		cmp1 := mapset.NewSet[rune]()
+		cmp1 := make(map[rune]struct{})
 		for _, chr := range line[:len(line)/2] {
-			cmp1.Add(chr)
+			cmp1[chr] = struct{}{}
 		}
 
-		cmp2 := mapset.NewSet[rune]()
+		cmp2 := make(map[rune]struct{})
 		for _, chr := range line[len(line)/2:] {
-			cmp2.Add(chr)
+			cmp2[chr] = struct{}{}
 		}
 
-		dup, _ := cmp1.Intersect(cmp2).Pop()
-		if unicode.IsLower(dup) {
-			priority += int(dup) - 96
+		dup := getIntersection(cmp1, cmp2)
+		keys := make([]rune, 0, len(dup))
+		for k := range dup {
+			keys = append(keys, k)
+			break
+		}
+
+		if unicode.IsLower(keys[0]) {
+			priority += int(keys[0]) - 96
 		} else {
-			priority += int(dup) - 64 + 26
+			priority += int(keys[0]) - 64 + 26
 		}
 	}
 
@@ -48,28 +64,35 @@ func main() {
 
 	priority = 0
 	for i := 0; i < len(input); i += 3 {
-		cmp1 := mapset.NewSet[rune]()
+		cmp1 := make(map[rune]struct{})
 		for _, chr := range input[i] {
-			cmp1.Add(chr)
+			cmp1[chr] = struct{}{}
 		}
 
-		cmp2 := mapset.NewSet[rune]()
+		cmp2 := make(map[rune]struct{})
 		for _, chr := range input[i+1] {
-			cmp2.Add(chr)
+			cmp2[chr] = struct{}{}
 		}
 
-		cmp3 := mapset.NewSet[rune]()
+		cmp3 := make(map[rune]struct{})
 		for _, chr := range input[i+2] {
-			cmp3.Add(chr)
+			cmp3[chr] = struct{}{}
 		}
 
-		dup, _ := cmp1.Intersect(cmp2).Intersect(cmp3).Pop()
-		if unicode.IsLower(dup) {
-			priority += int(dup) - 96
+		dup := getIntersection(cmp1, cmp2)
+		dup2 := getIntersection(dup, cmp3)
+
+		keys := make([]rune, 0, len(dup2))
+		for k := range dup2 {
+			keys = append(keys, k)
+			break
+		}
+
+		if unicode.IsLower(keys[0]) {
+			priority += int(keys[0]) - 96
 		} else {
-			priority += int(dup) - 64 + 26
+			priority += int(keys[0]) - 64 + 26
 		}
-
 	}
 
 	fmt.Println(fmt.Sprintf("Output Part 2: %d", priority))
