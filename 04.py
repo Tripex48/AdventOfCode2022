@@ -2,6 +2,16 @@ import time
 from libs import *
 
 
+def contains(self_start, self_end, other_start, other_end):
+    return (self_start <= other_start) and (self_end >= other_end)
+
+
+def overlap(self_start, self_end, other_start, other_end):
+    if self_end < other_start or other_end < self_start:
+        return False
+    return True
+
+
 def main():
     print("--- Running Day 3 ---")
 
@@ -20,18 +30,12 @@ def main():
         p1_num1, _, p1_num2 = p1.partition("-")
         p2_num1, _, p2_num2 = p2.partition("-")
 
-        p1_nums = set()
-        for i in range(int(p1_num1), int(p1_num2) + 1):
-            p1_nums.add(i)
-
-        p2_nums = set()
-        for i in range(int(p2_num1), int(p2_num2) + 1):
-            p2_nums.add(i)
-
-        if p1_nums.issubset(p2_nums) or p2_nums.issubset(p1_nums):
+        if contains(
+            int(p1_num1), int(p1_num2), int(p2_num1), int(p2_num2)
+        ) or contains(int(p2_num1), int(p2_num2), int(p1_num1), int(p1_num2)):
             count_p1 += 1
 
-        if len(p1_nums.intersection(p2_nums)) > 0:
+        if overlap(int(p1_num1), int(p1_num2), int(p2_num1), int(p2_num2)):
             count_p2 += 1
 
     print(f"Output Part 1: {count_p1}")
