@@ -13,7 +13,7 @@ def overlap(self_start, self_end, other_start, other_end):
 
 
 def main():
-    print("--- Running Day 3 ---")
+    print("--- Running Day 4 ---")
 
     start = time.perf_counter()
 
