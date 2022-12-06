@@ -17,7 +17,7 @@ def main():
     for line in data:
         line = line.strip()
         cmp1 = set(line[: int(len(line) / 2)])
-        cmp2 = set(line[int(len(line) / 2) :])
+        cmp2 = set(line[int(len(line) / 2):])
         (dup,) = cmp1 & cmp2
         if dup.islower():
             priority += ord(dup) - 96

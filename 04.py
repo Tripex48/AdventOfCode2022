@@ -2,11 +2,21 @@ import time
 from libs import *
 
 
-def contains(self_start, self_end, other_start, other_end):
+def contains(
+        self_start: int,
+        self_end: int,
+        other_start: int,
+        other_end: int,
+) -> bool:
     return (self_start <= other_start) and (self_end >= other_end)
 
 
-def overlap(self_start, self_end, other_start, other_end):
+def overlap(
+        self_start: int,
+        self_end: int,
+        other_start: int,
+        other_end: int,
+) -> bool:
     if self_end < other_start or other_end < self_start:
         return False
     return True
