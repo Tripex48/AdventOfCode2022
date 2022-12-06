@@ -60,7 +60,7 @@ func main() {
 		}
 	}
 
-	fmt.Println(fmt.Sprintf("Output Part 1: %d", priority))
+	fmt.Printf("Output Part 1: %d\n", priority)
 
 	priority = 0
 	for i := 0; i < len(input); i += 3 {
@@ -95,7 +95,7 @@ func main() {
 		}
 	}
 
-	fmt.Println(fmt.Sprintf("Output Part 2: %d", priority))
+	fmt.Printf("Output Part 2: %d\n", priority)
 
 	elapsed := time.Since(start)
 	fmt.Printf("\nExecution took %s\n", elapsed)

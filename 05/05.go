@@ -93,7 +93,7 @@ func main() {
 		}
 	}
 
-	fmt.Println(fmt.Sprintf("Output Part 1: %s", answer))
+	fmt.Printf("Output Part 1: %s\n", answer)
 
 	answer = ""
 	for i := 0; i < length; i++ {
@@ -102,7 +102,7 @@ func main() {
 		}
 	}
 
-	fmt.Println(fmt.Sprintf("Output Part 2: %s", answer))
+	fmt.Printf("Output Part 2: %s\n", answer)
 
 	elapsed := time.Since(start)
 	fmt.Printf("\nExecution took %s\n", elapsed)

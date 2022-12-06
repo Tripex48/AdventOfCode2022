@@ -33,7 +33,7 @@ func main() {
 	results["C Z"] = 6
 
 	total_score := play(input, results)
-	fmt.Println(fmt.Sprintf("Output Part 1: %d", total_score))
+	fmt.Printf("Output Part 1: %d\n", total_score)
 
 	results_r2 := make(map[string]int)
 	results_r2["A X"] = 3
@@ -47,7 +47,7 @@ func main() {
 	results_r2["C Z"] = 7
 
 	total_score_r2 := play(input, results_r2)
-	fmt.Println(fmt.Sprintf("Output Part 2: %d", total_score_r2))
+	fmt.Printf("Output Part 2: %d\n", total_score_r2)
 
 	elapsed := time.Since(start)
 	fmt.Printf("\nExecution took %s\n", elapsed)

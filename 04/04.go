@@ -49,8 +49,8 @@ func main() {
 		}
 	}
 
-	fmt.Println(fmt.Sprintf("Output Part 1: %d", count_p1))
-	fmt.Println(fmt.Sprintf("Output Part 2: %d", count_p2))
+	fmt.Printf("Output Part 1: %d\n", count_p1)
+	fmt.Printf("Output Part 2: %d\n", count_p2)
 
 	elapsed := time.Since(start)
 	fmt.Printf("\nExecution took %s\n", elapsed)

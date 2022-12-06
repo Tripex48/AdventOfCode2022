@@ -43,8 +43,8 @@ func main() {
 	})
 	total := elf_totals[0] + elf_totals[1] + elf_totals[2]
 
-	fmt.Println(fmt.Sprintf("Output Part 1: %d", highest_elf))
-	fmt.Println(fmt.Sprintf("Output Part 2: %d", total))
+	fmt.Printf("Output Part 1: %d\n", highest_elf)
+	fmt.Printf("Output Part 2: %d\n", total)
 
 	elapsed := time.Since(start)
 	fmt.Printf("\nExecution took %s\n", elapsed)
