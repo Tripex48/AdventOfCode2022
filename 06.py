@@ -1,15 +1,14 @@
 import time
 from libs import *
-from collections import Counter
 
 
 def isUniqueChars(string: str) -> bool:
-    freq = Counter(string)
-
-    if len(freq) == len(string):
-        return True
-    else:
-        return False
+    a: dict[str, bool] = {}
+    for ascii in string:
+        if ascii in a.keys():
+            return False
+        a[ascii] = True
+    return True
 
 
 def main():
@@ -35,7 +34,7 @@ def main():
     print(f"Output Part 1: {answer_p1}")
 
     answer_p2 = 0
-    for i in range(0, len(input) - 14):
+    for i in range(answer_p1, len(input) - 14):
         marker = "".join(input[i + x] for x in range(14))
 
         if isUniqueChars(marker):
