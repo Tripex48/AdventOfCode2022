@@ -70,9 +70,9 @@ func moveSnake(lines []string, length int) map[Coord]struct{} {
 			snake[0][0] += dx
 			snake[0][1] += dy
 
-			for i := 0; i < length-1; i++ {
-				H := snake[i]
-				T := snake[i+1]
+			for j := 0; j < length-1; j++ {
+				H := snake[j]
+				T := snake[j+1]
 
 				_x := H[0] - T[0]
 				_y := H[1] - T[1]
