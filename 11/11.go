@@ -8,16 +8,39 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/Pramod-Devireddy/go-exprtk"
 )
 
 type Monkey struct {
 	nums []float64
-	calc exprtk.GoExprtk
+	args []int
+	op   string
 	div  int
 	pos  int
 	neg  int
+}
+
+func eval(num1 float64, op string, num2 float64, item float64) float64 {
+	if num1 == -1 {
+		num1 = item
+	}
+	if num2 == -1 {
+		num2 = item
+	}
+
+	x := float64(0)
+	switch op {
+	case "+":
+		x = num1 + num2
+		break
+	case "-":
+		x = num1 - num2
+		break
+	case "*":
+		x = num1 * num2
+		break
+	}
+
+	return x
 }
 
 func solve(monkeys []Monkey, iter int, part int) int {
@@ -39,9 +62,7 @@ func solve(monkeys []Monkey, iter int, part int) int {
 	for i := 0; i < iter; i++ {
 		for input := 0; input < len(monkeysTemp); input++ {
 			for _, item := range monkeysTemp[input].nums {
-				calc := monkeysTemp[input].calc
-				calc.SetDoubleVariableValue("old", float64(item))
-				val := calc.GetEvaluatedValue()
+				val := eval(float64(monkeysTemp[input].args[0]), monkeysTemp[input].op, float64(monkeysTemp[input].args[1]), item)
 
 				if part == 1 {
 					val = math.Floor(val / 3)
@@ -90,10 +111,18 @@ func main() {
 			nums = append(nums, float64(num))
 		}
 
-		calc := exprtk.NewExprtk()
-		calc.SetExpression(strings.Split(lines[2], "=")[1])
-		calc.AddDoubleVariable("old")
-		calc.CompileExpression()
+		formula := strings.TrimSpace(strings.Split(lines[2], "=")[1])
+		calc := strings.Fields(formula)
+		args := []int{-1, -1}
+		op := calc[1]
+		if !strings.Contains(calc[0], "old") {
+			num, _ := strconv.Atoi(calc[0])
+			args[0] = num
+		}
+		if !strings.Contains(calc[2], "old") {
+			num, _ := strconv.Atoi(calc[2])
+			args[1] = num
+		}
 
 		div, _ := strconv.Atoi(strings.Fields(lines[3])[3])
 		pos, _ := strconv.Atoi(strings.Fields(lines[4])[5])
@@ -101,7 +130,8 @@ func main() {
 
 		newMonkey := Monkey{
 			nums: nums,
-			calc: calc,
+			args: args,
+			op:   op,
 			div:  div,
 			pos:  pos,
 			neg:  neg,
